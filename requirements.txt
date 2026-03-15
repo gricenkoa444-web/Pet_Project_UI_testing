@@ -1,0 +1,22 @@
+# Core testing
+playwright~=1.58.0
+pytest~=9.0.2
+pytest-playwright~=0.7.0
+
+# Page Object Model (дополнительные утилиты)
+pytest-xdist~=3.6.1           # параллельный запуск
+pytest-rerunfailures~=15.1    # перезапуск упавших тестов
+pytest-order~=1.3.0           # порядок тестов
+
+# Data validation & config
+pydantic~=2.12.5
+pydantic-settings~=2.13.1
+python-dotenv~=1.1.0          # загрузка .env файлов
+
+# Reporting
+allure-pytest~=2.15.3
+allure-python-commons~=2.15.3
+
+# Utils
+loguru~=0.7.3                  # красивое логирование
+Faker~=37.0.0                  # генерация тестовых данных

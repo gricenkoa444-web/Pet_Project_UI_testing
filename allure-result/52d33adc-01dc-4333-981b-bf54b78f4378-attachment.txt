@@ -1,0 +1,3 @@
+Сохраняем состояние в: C:\Users\noname\PycharmProjects\PythonProject\UI_Testing_PetProject\browser-state.json
+Файл существует после сохранения? True
+Размер файла: 401 байт
