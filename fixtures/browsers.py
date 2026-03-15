@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright, \
     Page, Playwright
 
 from pages.login_page import LoginPage
-from config import settings
+from config import settings, Browser
 from tools.playwright.pages import initialize_playwright_page
 
 
@@ -26,17 +26,23 @@ def initialization_browse_state(playwright: Playwright):
         login_page = LoginPage(page=page)
         login_page.visit('https://www.saucedemo.com/')
         login_page.fill_login_form(
-            username=settings.test_user_username, password=settings.test_user_password
+            username=settings.test_user.username, password=settings.test_user.password
         )
         login_page.click_button()
 
         context.storage_state(path=settings.browser_state_file)
+        state_path = settings.browser_state_file
+        print(f"Сохраняем состояние в: {state_path.absolute()}")
+        print(f"Файл существует после сохранения? {state_path.exists()}")
+        print(f"Размер файла: {state_path.stat().st_size if state_path.exists() else 0} байт")
         browser.close()
 
-@pytest.fixture(params=settings.browsers)
-def chromium_page_with_state(initialize_browser_state, request: SubRequest, playwright: Playwright) -> Page:
+@pytest.fixture(params=settings.browser)
+def chromium_page_with_state(initialization_browse_state, request: SubRequest, playwright: Playwright) -> Page:
+    browser_enum: Browser = request.param
     yield from initialize_playwright_page(
-        playwright,
+        playwright=playwright,
+        browser_type=browser_enum,
         test_name=request.node.name,
         storage_state=settings.browser_state_file
     )

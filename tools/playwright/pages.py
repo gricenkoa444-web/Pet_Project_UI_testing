@@ -7,12 +7,12 @@ from config import settings, Browser
 def initialize_playwright_page(
         playwright: Playwright,
         test_name: str,
-        browser_type: Browser,  # Передаем браузер в качестве аргумента
+        browser_type: Browser,
         storage_state: str | None = None
 ) -> Page:
     browser = playwright[browser_type].launch(headless=settings.headless)
     context = browser.new_context(
-        base_url=settings.get_base_url(),
+        base_url=settings.app_url.unicode_string(),
         storage_state=storage_state,
         record_video_dir=settings.videos_dir
     )

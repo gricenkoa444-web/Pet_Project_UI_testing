@@ -18,8 +18,8 @@ class TestUser(BaseModel):
     password: str
 
 
-class TestData(BaseModel):
-    image_png_file: FilePath
+#class TestData(BaseModel):
+    #image_png_file: FilePath
 
 
 class Settings(BaseSettings):
@@ -31,9 +31,9 @@ class Settings(BaseSettings):
 
     app_url: HttpUrl
     headless: bool
-    browsers: list[Browser]
+    browser: list[Browser]
     test_user: TestUser
-    test_data: TestData
+    #test_data: TestData
     videos_dir: DirectoryPath
     tracing_dir: DirectoryPath
     browser_state_file: FilePath
@@ -51,7 +51,8 @@ class Settings(BaseSettings):
         return Settings(
             videos_dir=videos_dir,
             tracing_dir=tracing_dir,
-            browser_state_file=browser_state_file
+            browser_state_file=browser_state_file,
+            browser=[Browser.CHROMIUM, Browser.WEBKIT, Browser.FIREFOX]
         )
 
-print(Settings.initialize())
+settings = Settings.initialize()
