@@ -10,23 +10,32 @@ from config import settings, Browser
 from tools.playwright.pages import initialize_playwright_page
 
 
-@pytest.fixture
-def chromium_page() -> Generator[Page, Any, None]:
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        yield browser.new_page()
-        browser.close()
+@pytest.fixture(params=settings.browser)
+def chromium_page(request: SubRequest, playwright: Playwright) -> Generator[Page, Any, None]:
+    with initialize_playwright_page(
+            playwright,
+            test_name=request.node.name,
+            browser_type=request.param,
+    ) as page:
+        yield page
+
 
 @pytest.fixture(scope='session')
-def initialization_browse_state(playwright: Playwright):
-        browser = playwright.chromium.launch(headless=False)
+def initialization_browse_state(
+        playwright: Playwright,
+        test_name: str,
+        browser_type: Browser[0],
+        storage_state: str | None = None,
+):
+        browser = playwright[browser_type].launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
 
         login_page = LoginPage(page=page)
         login_page.visit('https://www.saucedemo.com/')
         login_page.fill_login_form(
-            username=settings.test_user.username, password=settings.test_user.password
+            username=settings.test_user.username,
+            password=settings.test_user.password
         )
         login_page.click_button()
 
@@ -37,15 +46,17 @@ def initialization_browse_state(playwright: Playwright):
         print(f"Размер файла: {state_path.stat().st_size if state_path.exists() else 0} байт")
         browser.close()
 
+        return settings.browser_state_file
+
 @pytest.fixture(params=settings.browser)
 def chromium_page_with_state(initialization_browse_state, request: SubRequest, playwright: Playwright) -> Page:
-    browser_enum: Browser = request.param
-    yield from initialize_playwright_page(
-        playwright=playwright,
-        browser_type=browser_enum,
+    with initialize_playwright_page(
+        playwright,
+        browser_type=request.param,
         test_name=request.node.name,
         storage_state=settings.browser_state_file
-    )
+    )as page:
+        yield page
 
 
 

@@ -1,9 +1,11 @@
+from contextlib import contextmanager
+
 import allure
 from playwright.sync_api import Playwright, Page
 
 from config import settings, Browser
 
-
+@contextmanager
 def initialize_playwright_page(
         playwright: Playwright,
         test_name: str,
@@ -18,11 +20,16 @@ def initialize_playwright_page(
     )
     context.tracing.start(screenshots=True, snapshots=True, sources=True)
     page = context.new_page()
+    try:
+        yield page
+    finally:
+        trace_path = settings.tracing_dir.joinpath(f'{test_name}.zip')
+        context.tracing.stop(path=trace_path)
 
-    yield page
+        browser.close()
 
-    context.tracing.stop(path=settings.tracing_dir.joinpath(f'{test_name}.zip'))
-    browser.close()
+        if trace_path.exists():
+            allure.attach.file(trace_path, name='trace', extension='zip')
 
-    allure.attach.file(settings.tracing_dir.joinpath(f'{test_name}.zip'), name='trace', extension='zip')
-    allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)
+        if page.video and page.video.path():
+            allure.attach.file(page.video.path(), name='video', attachment_type=allure.attachment_type.WEBM)

@@ -21,6 +21,8 @@ def test_successful_authorization(chromium_page: Page, username: str, password: 
     login_page.fill_login_form(username=username, password=password)
     login_page.click_button()
 
+    assert login_page.page.url == 'https://www.saucedemo.com/inventory.html'
+
 
 
 

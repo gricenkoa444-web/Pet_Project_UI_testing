@@ -5,8 +5,8 @@ class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.username_input = page.get_by_placeholder('username')
-        self.password_input = page.get_by_placeholder('password')
+        self.username_input = page.get_by_placeholder("username")
+        self.password_input = page.get_by_placeholder("password")
         self.login_button = page.get_by_role("button", name="Login")
         self.alert_text = page.locator('.error-message-container.error [data-test="error"]')
 
