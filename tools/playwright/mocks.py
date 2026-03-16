@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, Route,
+from playwright.sync_api import Page, Route
 
 
 
