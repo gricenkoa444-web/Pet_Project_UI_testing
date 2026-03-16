@@ -1,14 +1,13 @@
 import pytest
 from playwright.sync_api import Page
 from pages.login_page import LoginPage
-
+@pytest.mark.xdist_group(name="authorization")
 @pytest.mark.regression
 @pytest.mark.authorization
 @pytest.mark.parametrize(
     'username, password',
     [
         ('standard_user', 'secret_sauce'),
-        ('locked_out_user', 'secret_sauce'),
         ('problem_user', 'secret_sauce'),
         ('performance_glitch_user', 'secret_sauce'),
         ('error_user', 'secret_sauce'),
