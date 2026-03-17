@@ -23,6 +23,7 @@ def chromium_page(request: SubRequest, playwright: Playwright) -> Generator[Page
 @pytest.fixture(scope='session')
 def initialization_browse_state(
         playwright: Playwright,
+        request,
         test_name: str,
         browser_type: Browser[0],
         storage_state: str | None = None,

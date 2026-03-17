@@ -12,7 +12,7 @@ def test_dashboard_product(chromium_page_with_state: Page):
 
     product_page.visit('https://www.saucedemo.com/inventory.html')
     product_page.check_visible_product_title()
-    product_page.check_visible_sauce_labs_backpack()
+    product_page.check_visible_all_products()
 
 
 
