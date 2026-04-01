@@ -1,21 +1,21 @@
 from playwright.sync_api import Page, expect
 
-from Component.navigation.navbar_component import NavbarComponent
+from component.navigation.navbar_component import NavbarComponent
 from pages.base_page import BasePage
 
 class ProductPage(BasePage):
-    def __init__(self, page: Page, dentifier: str):
+    def __init__(self, page: Page, identifier: str):
         super().__init__(page)
 
         self.navbar = NavbarComponent(page)
 
         self.product_title = page.locator('[data-test="title"]')
 
-        self.sauce_labs_backpack_title = page.locator(f'[data-test="inventory-item-{dentifier}"]')
-        self.sauce_labs_backpack_description = page.locator(f'[data-test="inventory-item-{dentifier}"]')
-        self.sauce_labs_backpack_price = page.locator(f'[data-test="inventory-item-{dentifier}"]')
+        self.sauce_labs_backpack_title = page.locator(f'[data-test="inventory-item-{identifier}"]')
+        self.sauce_labs_backpack_description = page.locator(f'[data-test="inventory-item-{identifier}"]')
+        self.sauce_labs_backpack_price = page.locator(f'[data-test="inventory-item-{identifier}"]')
 
-        self.sauce_labs_bike_light_button = page.locator(f'[data-test="add-to-cart-sauce-labs-{dentifier}"]')
+        self.sauce_labs_bike_light_button = page.locator(f'[data-test="add-to-cart-sauce-labs-{identifier}"]')
 
     def check_visible_product_title(self, title: str):
         expect(self.product_title).to_be_visible()

@@ -3,7 +3,8 @@ from playwright.sync_api import sync_playwright, expect, Page
 from config import settings
 from pages.products_page import ProductPage
 import pytest
-#@pytest.mark.regression
+
+@pytest.mark.regression
 def test_dashboard_product(chromium_page_with_state: Page):
     product_page = ProductPage(chromium_page_with_state)
 
