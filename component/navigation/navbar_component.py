@@ -15,6 +15,6 @@ class NavbarComponent(BaseComponent):
         expect(self.app_logo).to_be_visible()
         expect(self.app_logo).to_have_text('Swag Labs')
 
-        expect(self.shopping_cart_container).to_be_мшышиду()
+        expect(self.shopping_cart_container).to_be_visible()
 
 

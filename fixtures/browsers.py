@@ -14,7 +14,6 @@ from tools.playwright.pages import initialize_playwright_page
 def chromium_page(request: SubRequest, playwright: Playwright) -> Generator[Page, Any, None]:
     with initialize_playwright_page(
             playwright,
-            test_name=request.node.name,
             browser_type=request.param,
     ) as page:
         yield page
@@ -24,7 +23,6 @@ def chromium_page(request: SubRequest, playwright: Playwright) -> Generator[Page
 def initialization_browse_state(
         playwright: Playwright,
         request,
-        test_name: str,
         browser_type: Browser[0],
         storage_state: str | None = None,
 ):
@@ -54,7 +52,6 @@ def chromium_page_with_state(initialization_browse_state, request: SubRequest, p
     with initialize_playwright_page(
         playwright,
         browser_type=request.param,
-        test_name=request.node.name,
         storage_state=settings.browser_state_file
     )as page:
         yield page

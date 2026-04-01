@@ -5,15 +5,13 @@ from pages.products_page import ProductPage
 import pytest
 
 @pytest.mark.regression
-def test_dashboard_product(chromium_page_with_state: Page):
-    product_page = ProductPage(chromium_page_with_state)
+def test_dashboard_product(product_page_with_state: ProductPage):
+    product_page_with_state.visit('https://www.saucedemo.com/inventory.html')
+    product_page_with_state.navbar.check_visible()
+    product_page_with_state.product_component.check_visible_sauce_labs_backpack()
+    product_page_with_state.product_component.check_visible_sauce_labs_bike_light()
+    product_page_with_state.product_component.click_button()
 
-    base_url = str(settings.app_url)
-    product_page.visit(f"{base_url}/inventory.html")
-
-    product_page.visit('https://www.saucedemo.com/inventory.html')
-    product_page.check_visible_product_title()
-    product_page.check_visible_all_products()
 
 
 
